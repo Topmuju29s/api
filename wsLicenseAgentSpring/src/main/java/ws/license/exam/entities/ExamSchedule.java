@@ -49,6 +49,12 @@ public class ExamSchedule
    
 	@Column(name = "create_user_code", length = 10)
     private String createUserCode;
+        
+                 @Column(name = "receive_date")
+    private Date receiveDate;
+                 
+                @Column(name = "receive_time", length = 6)
+    private String receiveTime;
 
 	@CreationTimestamp
 	@Column(name = "create_time")
@@ -65,7 +71,8 @@ public class ExamSchedule
 	public ExamSchedule(){}
 	
 	public ExamSchedule(int scheduleId, int locationId, int alteredLocationId, Date examDate, String roundId,
-						int maxApplicant, Date applyOpenDate, Date applyCloseDate, String openStatus, String createUserCode,String updateUserCode) 
+			int maxApplicant, Date applyOpenDate, Date applyCloseDate, String openStatus, 
+                                                Date receiveDate, String receiveTime, String createUserCode,String updateUserCode) 
 	{
 		this.scheduleId = scheduleId;
 		this.locationId = locationId;
@@ -76,6 +83,8 @@ public class ExamSchedule
 		this.applyOpenDate = applyOpenDate;
 		this.applyCloseDate = applyCloseDate;
 		this.openStatus = openStatus;
+                                this.receiveDate = receiveDate;
+                                this.receiveTime = receiveTime;
 		this.createUserCode = createUserCode;
 		this.updateUserCode = updateUserCode;
 	}
@@ -159,6 +168,22 @@ public class ExamSchedule
 	public void setCreateUserCode(String createUserCode) {
 		this.createUserCode = createUserCode;
 	}
+        
+                public Date getReceiveDate(){
+                                return receiveDate;
+                }
+                
+                public void setReceiveDate(Date receiveDate) {
+                                this.receiveDate = receiveDate;
+                }
+                
+                public String getReceiveTime(){
+                                return receiveTime;
+                }
+                
+                public void setReceiveTime(String receiveTime){
+                                this.receiveTime = receiveTime;
+                }
 
 	public Timestamp getCreateTime() {
 		return createTime;
