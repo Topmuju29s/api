@@ -1,5 +1,6 @@
 package ws.license.exam.entities;
 
+import java.io.Serializable;
 import java.sql.Timestamp;
 import java.util.Date;
 
@@ -13,18 +14,21 @@ import javax.persistence.Table;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
-@Entity
+@Entity(name = "exam_schedule")
 @Table(name = "exam_schedule")
-public class ExamSchedule 
+public class ExamSchedule implements Serializable
 {
 	private static final long serialVersionUID = 1L;
 	@Id 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
 	@Column(name = "schedule_id", unique = true, nullable = false)
     private int scheduleId;
-	
-	@Column(name = "location_id")
+
+    @Column(name = "location_id")
     private int locationId;
+//	@OneToOne(cascade = CascadeType.ALL , fetch = FetchType.LAZY)
+//	@JoinColumn(name = "location_id", referencedColumnName="location_id")
+//	private ExamLocation examLocation;
 
 	@Column(name = "altered_location_id")
     private int alteredLocationId;
@@ -50,10 +54,10 @@ public class ExamSchedule
 	@Column(name = "create_user_code", length = 10)
     private String createUserCode;
         
-                 @Column(name = "receive_date")
+    @Column(name = "receive_date")
     private Date receiveDate;
                  
-                @Column(name = "receive_time", length = 6)
+    @Column(name = "receive_time", length = 6)
     private String receiveTime;
 
 	@CreationTimestamp
@@ -65,14 +69,16 @@ public class ExamSchedule
 	
 	@UpdateTimestamp
 	@Column(name = "last_update")
-	private Timestamp lastUpdate;
-
+	private Timestamp lastUpdate;   
+	
+	//private String provinceCode;
+	
 	
 	public ExamSchedule(){}
 	
 	public ExamSchedule(int scheduleId, int locationId, int alteredLocationId, Date examDate, String roundId,
 			int maxApplicant, Date applyOpenDate, Date applyCloseDate, String openStatus, 
-                                                Date receiveDate, String receiveTime, String createUserCode,String updateUserCode) 
+            Date receiveDate, String receiveTime, String createUserCode,String updateUserCode, String provinceCode) 
 	{
 		this.scheduleId = scheduleId;
 		this.locationId = locationId;
@@ -83,8 +89,8 @@ public class ExamSchedule
 		this.applyOpenDate = applyOpenDate;
 		this.applyCloseDate = applyCloseDate;
 		this.openStatus = openStatus;
-                                this.receiveDate = receiveDate;
-                                this.receiveTime = receiveTime;
+        this.receiveDate = receiveDate;
+        this.receiveTime = receiveTime;
 		this.createUserCode = createUserCode;
 		this.updateUserCode = updateUserCode;
 	}
@@ -169,21 +175,21 @@ public class ExamSchedule
 		this.createUserCode = createUserCode;
 	}
         
-                public Date getReceiveDate(){
-                                return receiveDate;
-                }
-                
-                public void setReceiveDate(Date receiveDate) {
-                                this.receiveDate = receiveDate;
-                }
-                
-                public String getReceiveTime(){
-                                return receiveTime;
-                }
-                
-                public void setReceiveTime(String receiveTime){
-                                this.receiveTime = receiveTime;
-                }
+    public Date getReceiveDate(){
+        return receiveDate;
+    }
+    
+    public void setReceiveDate(Date receiveDate) {
+        this.receiveDate = receiveDate;
+    }
+    
+    public String getReceiveTime(){
+        return receiveTime;
+    }
+    
+    public void setReceiveTime(String receiveTime){
+        this.receiveTime = receiveTime;
+    }
 
 	public Timestamp getCreateTime() {
 		return createTime;
@@ -208,8 +214,22 @@ public class ExamSchedule
 	public void setLastUpdate(Timestamp lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
+	
+//	public ExamLocation getExamLocaiton() {
+//		return examLocation;
+//	}
+//
+//	public void setExamLocaiton(ExamLocation examLocaiton) {
+//		this.examLocation = examLocaiton;
+//	}
+	
+//	public String getProvinceCode() {
+//		return provinceCode;
+//	}
+//
+//	public void setProvinceCode(String provinceCode) {
+//		this.provinceCode = provinceCode;
+//	}
 
-	
-	
 	
 }
