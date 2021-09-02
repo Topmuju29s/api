@@ -20,7 +20,7 @@ import com.sun.istack.NotNull;
 //import lombok.Getter;
 //import lombok.Setter;
 
-@Entity
+@Entity(name = "exam_round")
 @Table(name = "exam_round")
 public class ExamRound 
 {

@@ -9,8 +9,6 @@ import java.util.List;
 import java.util.Locale;
 import java.util.Optional;
 import java.util.stream.Collectors;
-import javax.persistence.EntityManager;
-import javax.persistence.PersistenceContext;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,10 +21,6 @@ public class ExamScheduleService {
 	
 	@Autowired
 	private ExamScheduleRepository examScheduleRepository;
-	
-	@PersistenceContext
-	private EntityManager entityManager;
-	
 	public List<ExamSchedule> findAll()
 	{
 		return examScheduleRepository.findAll();
@@ -41,8 +35,15 @@ public class ExamScheduleService {
 	{
 		return examScheduleRepository.save(ExamSchedule);
 	}
-        
-    public List<ExamSchedule> findByDetail(String examDate, String roundId, String provinceCode, String examOrg) 
+	
+	
+	public String delete(int id) 
+	{
+		examScheduleRepository.deleteById(id);
+		return "schedulr_id with ID :"+id+" is deleted"; 
+	}
+	
+	public List<ExamSchedule> findByDetail(String examDate, String roundId, String provinceCode, String examOrg) 
 	{
 
                     List<ExamSchedule> ex = new ArrayList<ExamSchedule>();
@@ -74,15 +75,7 @@ public class ExamScheduleService {
 
                     return exFilter;
 	}
-	
-	
-	public String delete(int id) 
-	{
-		examScheduleRepository.deleteById(id);
-		return "schedulr_id with ID :"+id+" is deleted"; 
-	}
-        
-    private String convertNullToEmptyString(Object value) {
+	private String convertNullToEmptyString(Object value) {
         String stringValue = String.valueOf(value);
         stringValue = (("null".equals(stringValue)) ? "" : stringValue);
         return stringValue;
@@ -110,5 +103,4 @@ public class ExamScheduleService {
     	
     	return dateFormat;
     }
-    
 }

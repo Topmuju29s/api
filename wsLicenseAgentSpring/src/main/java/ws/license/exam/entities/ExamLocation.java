@@ -1,37 +1,26 @@
 package ws.license.exam.entities;
 
-import java.io.Serializable;
 import java.sql.Timestamp;
-
-import javax.persistence.Basic;
-import javax.persistence.CascadeType;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToMany;
-import javax.persistence.OneToOne;
-import javax.persistence.PrimaryKeyJoinColumn;
 import javax.persistence.Table;
-import javax.xml.bind.annotation.XmlRootElement;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
 @Entity
 @Table(name = "exam_location")
-@XmlRootElement
-public class ExamLocation implements Serializable
+public class ExamLocation 
 {
     private static final long serialVersionUID = 1L;
     @Id 
 	@GeneratedValue(strategy=GenerationType.IDENTITY)
-	@Column(name = "location_id", unique = true, nullable = false) 
-    private int locationId; 
+	@Column(name = "location_id", unique = true, nullable = false)
+    private int locationId;
     
     @Column(name = "orgCode", length = 2)
     private String orgCode;
@@ -58,7 +47,7 @@ public class ExamLocation implements Serializable
 	@UpdateTimestamp
 	@Column(name = "last_update")
 	private Timestamp lastUpdate;
-        
+
     public ExamLocation() {}
 
 	public ExamLocation(int locationId, String orgCode, String provinceCode, String locationDetail, String locationType,
@@ -144,14 +133,6 @@ public class ExamLocation implements Serializable
 	public void setLastUpdate(Timestamp lastUpdate) {
 		this.lastUpdate = lastUpdate;
 	}
-        
-//    private ExamSchedule getExamSchedule() {
-//                   return examSchedule;
-//    }
-//    
-//    private void setExamSchedule(ExamLocation examLocation) {
-//                    this.examSchedule = examSchedule;
-//    }
-//    
+    
     
 }

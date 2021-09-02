@@ -51,7 +51,7 @@ public class DBConfiguration
 	@Bean
 	public String devDatabaseConnect()
 	{
-		System.out.println("DB connection for DEV");
+		System.out.println("DB connection for DEV .. v 1.0.4_chanon.kha");
 		System.out.println(driverClassName);
 		System.out.println(url);
 		System.out.println(username);

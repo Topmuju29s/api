@@ -13,6 +13,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -27,6 +28,8 @@ import ws.license.exam.service.ExamRoundService;
 
 
 @RestController
+//@CrossOrigin(origins = "/**", allowedHeaders = "/**")
+
 @RequestMapping("/licenseexam")
 public class ExamRoundController {
 
@@ -156,11 +159,21 @@ public class ExamRoundController {
 	@RequestMapping(value = "/examround/searchGET", method=RequestMethod.GET)
 	public /*List<ExamRound>*/ResponseEntity<List<ExamRound>> searchExamRoundGet() 
 	{
-		System.out.println("searchExamRoundGet");
+		System.out.println("searchExamRoundGet...");
 
 		List<ExamRound> list = exService.findAll();
+		System.out.println("list = "+list.size());
 		return new ResponseEntity<List<ExamRound>>(list,HttpStatus.OK);
 	}
 	
+	@RequestMapping(value = "/examround/searchByQuery", method=RequestMethod.POST)
+	public ResponseEntity<List<ExamRound>> searchByQuery() 
+	{
+		System.out.println("searchByQuery...");
 
+		List<ExamRound> list = exService.testSearchSQL("A");
+		System.out.println("list = "+list.size());
+		return new ResponseEntity<List<ExamRound>>(list,HttpStatus.OK);
+	}
+	
 }

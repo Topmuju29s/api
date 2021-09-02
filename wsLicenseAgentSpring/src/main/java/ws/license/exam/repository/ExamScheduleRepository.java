@@ -1,43 +1,41 @@
 package ws.license.exam.repository;
 
-import java.util.List;
 import java.util.Date;
+import java.util.List;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
-import org.springframework.transaction.annotation.Transactional;
 
 import ws.license.exam.entities.ExamSchedule;
 
 @Repository
-@Transactional
-public interface ExamScheduleRepository extends JpaRepository<ExamSchedule, Integer>, JpaSpecificationExecutor<ExamSchedule>
+public interface ExamScheduleRepository extends JpaRepository<ExamSchedule, Integer>,JpaSpecificationExecutor<ExamSchedule>
 {
-    
-    List<ExamSchedule> findByExamDate(Date examDate);
+
+	List<ExamSchedule> findByExamDate(Date examDate);
     List<ExamSchedule> findByRoundId(String roundId);
     List<ExamSchedule> findByExamDateAndRoundId(Date examDate, String roundId);
     
-    @Query("SELECT es from exam_schedule es "
-    		+ "JOIN ExamLocation el on el.locationId = es.locationId "
+    @Query(value = "SELECT es from ExamSchedule es "
+    		+ "INNER JOIN ExamLocation el on el.locationId = es.locationId "
     		+ "where el.provinceCode = :provinceCode and el.orgCode = :examOrg "
-    		+ " order by es.scheduleId desc")
+    		+ " order by es.scheduleId desc", nativeQuery = false)
     List<ExamSchedule> findByProvinceCodeAndExamOrg(@Param("provinceCode") String provinceCode,
     												@Param("examOrg") String examOrg);
-    
-    @Query("SELECT es from exam_schedule es "
-    		+ "JOIN ExamLocation el on el.locationId = es.locationId "
+
+    @Query(value = "SELECT es from ExamSchedule es "
+    		+ "INNER JOIN ExamLocation el on el.locationId = es.locationId "
     		+ "where el.provinceCode = :provinceCode "
-    		+ " order by es.scheduleId desc")
+    		+ " order by es.scheduleId desc", nativeQuery = false)
     List<ExamSchedule> findByProvinceCode(@Param("provinceCode") String provinceCode);
     
-    @Query("SELECT es from exam_schedule es "
+    @Query(value = "SELECT es from ExamSchedule es "
     		+ "JOIN ExamLocation el on el.locationId = es.locationId "
     		+ "where el.orgCode = :examOrg "
-    		+ " order by es.scheduleId desc")
+    		+ " order by es.scheduleId desc", nativeQuery = false)
     List<ExamSchedule> findByExamOrg(@Param("examOrg") String examOrg);
-    
-    
+	
 }

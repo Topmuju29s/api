@@ -1,14 +1,13 @@
 package ws.license.exam.test;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.context.SpringBootTest;
 
-class WsLicenseAgentSpringApplicationTests extends TestCase {
+@SpringBootTest
+class WsLicenseAgentSpringApplicationTests {
 
-	public WsLicenseAgentSpringApplicationTests( String testName )
-    {
-        super( testName );
-    }
+	@Test
+	void contextLoads() {
+	}
 
 }

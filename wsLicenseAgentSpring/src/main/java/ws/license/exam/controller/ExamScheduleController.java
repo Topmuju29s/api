@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.query.Param;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -21,6 +22,7 @@ import ws.license.exam.entities.ExamSchedule;
 import ws.license.exam.service.ExamScheduleService;
 
 @RestController
+//@CrossOrigin(origins = "/**", allowedHeaders = "/**")
 @RequestMapping("/licenseexam")
 public class ExamScheduleController {
 	@Autowired
@@ -95,35 +97,55 @@ public class ExamScheduleController {
 		}
 	}
 	@RequestMapping(value = "/examschedule/search", method=RequestMethod.POST)
-	public ResponseEntity<List<ExamSchedule>> searchExamSchedule(@Param("type") String type) {
-		System.out.println("searchExamSchedule type = " + type);
-		try {
+	public ResponseEntity<List<ExamSchedule>> searchExamSchedule(@Param("type") String type) 
+	{
+		System.out.println("searchExamSchedule type = "+type);
+		try
+		{
 			List<ExamSchedule> listEx = new ArrayList<ExamSchedule>();
-			if (type.equals("A")) {
+			if(type.equals("A"))
+			{
 				List<ExamSchedule> list = exService.findAll();
-				return new ResponseEntity<List<ExamSchedule>>(list, HttpStatus.OK);
-			} else {
-				Optional<ExamSchedule> ex = exService.findById(Integer.parseInt(type));
-				if (ex.isPresent()) {
-					listEx.add(ex.get());
-					for (int i = 0; i < listEx.size(); i++) {
-						ExamSchedule en = (ExamSchedule) listEx.get(i);
-						System.out.println("result searchExamSchedule : " + en);
-					}
-					return new ResponseEntity<List<ExamSchedule>>(listEx, HttpStatus.OK);
-				} else {
-
-					System.out.printf("No schedule_id found with id :" + type);
-					throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ไม่พบ schedule_id:" + type);
-				}
+				return new ResponseEntity<List<ExamSchedule>>(list,HttpStatus.OK);
 			}
-		} catch (Exception e) {
-			System.out.println("Error searchExamSchedule : " + e.getMessage());
-			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
+			else
+			{
+				Optional<ExamSchedule> ex = exService.findById(Integer.parseInt(type));
+				if (ex.isPresent()) 
+				{
+					listEx.add(ex.get());
+					for(int i=0;i<listEx.size();i++)
+					{
+						ExamSchedule en = (ExamSchedule)listEx.get(i);
+						System.out.println("result searchExamSchedule : "+en);
+					}
+					return new ResponseEntity<List<ExamSchedule>>(listEx,HttpStatus.OK);
+			    } 
+				else 
+				{
+					
+			        System.out.printf("No schedule_id found with id :"+ type);
+			        throw new ResponseStatusException(HttpStatus.NOT_FOUND, "ไม่พบ schedule_id:"+type);
+			    }
+			}
+		}
+		catch(Exception e)
+		{
+			System.out.println("Error searchExamSchedule : "+e.getMessage());
+			throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR,e.getMessage());
 		}
 	}
-        
-    @RequestMapping(value = "/examschedule/searchDetail", method = RequestMethod.GET)
+	
+	@RequestMapping(value = "/examschedule/searchGET", method=RequestMethod.GET)
+	public ResponseEntity<List<ExamSchedule>> searchExamScheduleGet() 
+	{
+		System.out.println("searchExamScheduleGet");
+
+		List<ExamSchedule> list = exService.findAll();
+		return new ResponseEntity<List<ExamSchedule>>(list,HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/examschedule/searchDetail", method = RequestMethod.GET)
     public ResponseEntity<List<ExamSchedule>> searchExamScheduleByDetail(@Param("examDate") String examDate, 
     																	 @Param("roundId") String roundId,
     																	 @Param("provinceCode") String provinceCode,
@@ -142,13 +164,4 @@ public class ExamScheduleController {
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
         }
     }
-	
-	@RequestMapping(value = "/examschedule/searchGET", method=RequestMethod.GET)
-	public ResponseEntity<List<ExamSchedule>> searchExamScheduleGet() 
-	{
-		System.out.println("searchExamScheduleGet");
-
-		List<ExamSchedule> list = exService.findAll();
-		return new ResponseEntity<List<ExamSchedule>>(list,HttpStatus.OK);
-	}
 }
