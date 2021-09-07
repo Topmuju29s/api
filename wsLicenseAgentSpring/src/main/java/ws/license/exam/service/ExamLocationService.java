@@ -20,18 +20,25 @@ public class ExamLocationService
 
 	public List<ExamLocation> findAll()
 	{
-		return examLocationRepository.findAll();
+		return examLocationRepository.findExamLocationAll();
 	}
 
-	public Optional<ExamLocation> findById(int id) 
+	public List<ExamLocation> findById(int id) 
 	{
-		return examLocationRepository.findById(id);
+		return examLocationRepository.findExamLocationById(id);		
 	}
 
 	public ExamLocation save(ExamLocation examLocation)
 	{
 		return examLocationRepository.save(examLocation);
 	}
+	
+	public String updateExamLocation(ExamLocation examLocation)
+	{
+		examLocationRepository.updateExamLocation(examLocation.getLocationId());
+		return "success";
+	}
+	
 	public String delete(int id) 
 	{
 		examLocationRepository.deleteById(id);

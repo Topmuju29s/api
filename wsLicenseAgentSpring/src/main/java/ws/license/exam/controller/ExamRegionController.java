@@ -26,6 +26,7 @@ import ws.license.exam.service.ExamRegionService;
 @RequestMapping("/licenseexam")
 public class ExamRegionController 
 {
+			
 	@Autowired
 	private ExamRegionService exService;
 	

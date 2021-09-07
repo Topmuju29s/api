@@ -38,7 +38,7 @@ public class ExamLocationController
 	}
 	
 	@RequestMapping(value = "/examlocation/add", method=RequestMethod.POST)
-	public ResponseEntity<ExamLocation> addExamLocation(@RequestBody ExamLocation ExamLocation) 
+	public ResponseEntity<String> addExamLocation(@RequestBody ExamLocation ExamLocation) 
 	{
 		System.out.println("addExamLocation = "+ExamLocation);
 		System.out.println("ExamLocation = "+ExamLocation.getLocationId()+"|"+ExamLocation.getLocationDetail());
@@ -47,7 +47,7 @@ public class ExamLocationController
 		{
 			ex = exService.save(ExamLocation);
 			System.out.println(ex);
-			return new ResponseEntity<ExamLocation>(ex,HttpStatus.OK);
+			return new ResponseEntity<>("success",HttpStatus.OK);
 		}
 		catch(Exception e)
 		{
@@ -60,14 +60,14 @@ public class ExamLocationController
 	{
 		try
 		{
-			Optional<ExamLocation> old = exService.findById(ExamLocation.getLocationId());
-			
-			if (old.isPresent()) 
+			List<ExamLocation> old = exService.findById(ExamLocation.getLocationId());
+
+			if (old.size() > 0) 
 			{
-				ExamLocation.setCreateTime(old.get().getCreateTime());
-				ExamLocation.setCreateUserCode(old.get().getCreateUserCode());
-				ExamLocation eLast = exService.save(ExamLocation);
-				return new ResponseEntity<ExamLocation>(eLast,HttpStatus.OK);
+				ExamLocation.setCreateTime(old.get(0).getCreateTime());
+				ExamLocation.setCreateUserCode(old.get(0).getCreateUserCode());
+				ExamLocation ex = exService.save(ExamLocation);
+				return new ResponseEntity<ExamLocation>(ex,HttpStatus.OK);
 			}
 			else
 			{
@@ -111,17 +111,17 @@ public class ExamLocationController
 			}
 			else
 			{
-				Optional<ExamLocation> ex = exService.findById(Integer.parseInt(type));
-				if (ex.isPresent()) 
+				List<ExamLocation> ex = exService.findById(Integer.parseInt(type));
+				if (ex.size() > 0) 
 				{
-					listEx.add(ex.get());
-					for(int i=0;i<listEx.size();i++)
-					{
-						ExamLocation en = (ExamLocation)listEx.get(i);
-						System.out.println("result searchExamLocation : "+en);
-					}
-					return new ResponseEntity<List<ExamLocation>>(listEx,HttpStatus.OK);
-			    } 
+//					listEx.add(ex.get());
+//					for(int i=0;i<listEx.size();i++)
+//					{
+//						ExamLocation en = (ExamLocation)listEx.get(i);
+//						System.out.println("result searchExamLocation : "+en);
+//					}
+					return new ResponseEntity<List<ExamLocation>>(ex,HttpStatus.OK);
+			    } 				
 				else 
 				{
 					
