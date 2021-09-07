@@ -7,7 +7,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ws.license.exam.entities.ExamLocation;
+import ws.license.exam.entities.ExamLocationDetail;
 import ws.license.exam.entities.ExamOrganizer;
+import ws.license.exam.repository.ExamLocationDetailRepository;
 import ws.license.exam.repository.ExamLocationRepository;
 import ws.license.exam.repository.ExamOrganizerRepository;
 
@@ -17,15 +19,18 @@ public class ExamLocationService
 	@Autowired
 	private ExamLocationRepository examLocationRepository;
 	
+	@Autowired
+	private ExamLocationDetailRepository examLocationDetailRepository;
+	
 
-	public List<ExamLocation> findAll()
+	public List<ExamLocationDetail> findAll()
 	{
-		return examLocationRepository.findExamLocationAll();
+		return examLocationDetailRepository.findExamLocationAll();
 	}
 
-	public List<ExamLocation> findById(int id) 
+	public List<ExamLocationDetail> findById(int id) 
 	{
-		return examLocationRepository.findExamLocationById(id);		
+		return examLocationDetailRepository.findExamLocationById(id);		
 	}
 
 	public ExamLocation save(ExamLocation examLocation)

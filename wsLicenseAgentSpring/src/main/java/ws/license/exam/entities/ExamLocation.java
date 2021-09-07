@@ -28,30 +28,15 @@ public class ExamLocation
     
     @Column(name = "orgCode", length = 2)
     private String orgCode;
-    
-    @Transient
-    private String orgName;
 
 	@Column(name = "province_code", length = 3)
     private String provinceCode;
-    
-	@Transient
-    private String provinceName;
-    
-	@Transient
-    private String regionCode;    
-
-    @Transient
-	private String regionName;
 
 	@Column(name = "location_detail", length = 300)
     private String locationDetail;
 
     @Column(name = "location_type", length = 1)
     private String locationType;
-    
-    @Transient
-    private String locationTypeName;
 
 	@Column(name = "create_user_code", length = 10)
     private String createUserCode;
@@ -151,60 +136,6 @@ public class ExamLocation
 
 	public void setLastUpdate(Timestamp lastUpdate) {
 		this.lastUpdate = lastUpdate;
-	}	
-	
-	public String getProvinceName() {
-		return provinceName;
-	}
-
-	public void setProvinceName(String provinceName) {
-		this.provinceName = provinceName;
-	}
-
-	public String getRegionCode() {
-		return regionCode;
-	}
-
-	public void setRegionCode(String regionCode) {
-		this.regionCode = regionCode;
-	}
-	
-	public String getRegionName() {		
-		Jsondb region = new Jsondb();
-		String regionName = "";
-		try {
-			regionName = region.getRegionFromJson().get(Integer.parseInt(regionCode)).getRegionName();
-		} catch (Exception e){
-			regionName = "";
-		}
-		return regionName;
-	}
-
-	public void setRegionName(String regionName) {
-		this.regionName = regionName;
-	}
-	
-	public String getLocationTypeName() {
-		Jsondb exam = new Jsondb();
-		String locationTypeName = "";
-		try {
-		locationTypeName = exam.getExamTypeFromJson().get(Integer.parseInt(locationType) -1 ).getExamTypeName();
-		} catch (Exception e) {
-			locationTypeName = "";
-		}
-		return locationTypeName;
-	}
-
-	public void setLocationTypeName(String locationTypeName) {
-		this.locationTypeName = locationTypeName;
-	}
-	
-	public String getOrgName() {
-		return orgName;
-	}
-
-	public void setOrgName(String orgName) {
-		this.orgName = orgName;
 	}
     
 }

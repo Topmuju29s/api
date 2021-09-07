@@ -2,6 +2,8 @@ package ws.license.exam.repository;
 
 import java.util.List;
 
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
 import javax.transaction.Transactional;
 
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -16,7 +18,7 @@ import ws.license.exam.entities.ExamSchedule;
 @Repository
 public interface ExamLocationRepository extends JpaRepository<ExamLocation, Integer> 
 {
-
+	
 //	@Query(value = "SELECT es from ExamSchedule es "
 //    		+ "INNER JOIN ExamLocation el on el.locationId = es.locationId "
 //    		+ "where el.provinceCode = :provinceCode and el.orgCode = :examOrg "
@@ -46,5 +48,6 @@ public interface ExamLocationRepository extends JpaRepository<ExamLocation, Inte
 	@Query(value = "update license_exam.exam_location SET last_update = current_timestamp where location_id = :locationId ", nativeQuery = true)
 	@Transactional
 	public void updateExamLocation(@Param("locationId") int locationId);
+
 	
 }

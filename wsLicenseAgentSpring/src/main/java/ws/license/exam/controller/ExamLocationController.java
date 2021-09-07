@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import ws.license.exam.entities.ExamLocation;
+import ws.license.exam.entities.ExamLocationDetail;
 import ws.license.exam.service.ExamLocationService;
 
 @RestController
@@ -60,9 +61,9 @@ public class ExamLocationController
 	{
 		try
 		{
-			List<ExamLocation> old = exService.findById(ExamLocation.getLocationId());
+			List<ExamLocationDetail> old = exService.findById(ExamLocation.getLocationId());
 
-			if (old.size() > 0) 
+			if (old.size() > 0)
 			{
 				ExamLocation.setCreateTime(old.get(0).getCreateTime());
 				ExamLocation.setCreateUserCode(old.get(0).getCreateUserCode());
@@ -98,7 +99,7 @@ public class ExamLocationController
 		}
 	}
 	@RequestMapping(value = "/examlocation/search", method=RequestMethod.POST)
-	public ResponseEntity<List<ExamLocation>> searchExamLocation(@Param("type") String type) 
+	public ResponseEntity<List<ExamLocationDetail>> searchExamLocation(@Param("type") String type) 
 	{
 		System.out.println("searchExamLocation type = "+type);
 		try
@@ -106,21 +107,20 @@ public class ExamLocationController
 			List<ExamLocation> listEx = new ArrayList<ExamLocation>();
 			if(type.equals("A"))
 			{
-				List<ExamLocation> list = exService.findAll();
-				return new ResponseEntity<List<ExamLocation>>(list,HttpStatus.OK);
+				List<ExamLocationDetail> list = exService.findAll();
+				return new ResponseEntity<List<ExamLocationDetail>>(list,HttpStatus.OK);
 			}
 			else
 			{
-				List<ExamLocation> ex = exService.findById(Integer.parseInt(type));
+				List<ExamLocationDetail> ex = exService.findById(Integer.parseInt(type));
 				if (ex.size() > 0) 
 				{
-//					listEx.add(ex.get());
-//					for(int i=0;i<listEx.size();i++)
-//					{
-//						ExamLocation en = (ExamLocation)listEx.get(i);
-//						System.out.println("result searchExamLocation : "+en);
-//					}
-					return new ResponseEntity<List<ExamLocation>>(ex,HttpStatus.OK);
+					for(int i=0;i<ex.size();i++)
+					{
+						ExamLocationDetail en = (ExamLocationDetail)ex.get(i);
+						System.out.println("result searchExamLocation : "+en);
+					}
+					return new ResponseEntity<List<ExamLocationDetail>>(ex,HttpStatus.OK);
 			    } 				
 				else 
 				{
@@ -138,11 +138,11 @@ public class ExamLocationController
 	}
 	
 	@RequestMapping(value = "/examlocation/searchGET", method=RequestMethod.GET)
-	public ResponseEntity<List<ExamLocation>> searchExamLocationGet() 
+	public ResponseEntity<List<ExamLocationDetail>> searchExamLocationGet() 
 	{
 		System.out.println("searchExamLocationGet");
 
-		List<ExamLocation> list = exService.findAll();
-		return new ResponseEntity<List<ExamLocation>>(list,HttpStatus.OK);
+		List<ExamLocationDetail> list = exService.findAll();
+		return new ResponseEntity<List<ExamLocationDetail>>(list,HttpStatus.OK);
 	}
 }
