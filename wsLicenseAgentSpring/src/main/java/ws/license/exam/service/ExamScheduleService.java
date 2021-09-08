@@ -85,7 +85,7 @@ public class ExamScheduleService {
     	
     	Date date = null;
     	try {    		
-			DateFormat format = new SimpleDateFormat("dd/MM/yyyy",Locale.ENGLISH);
+			DateFormat format = new SimpleDateFormat("yyyy-MM-dd",Locale.ENGLISH);
 	    	date = format.parse(dateString);    		
     	} catch (ParseException e) {
     		date = new Date();
@@ -96,11 +96,12 @@ public class ExamScheduleService {
     private Date convertDateToDate(Date dateUnformat) {
     	Date dateFormat = null;
     	String dateString = null;
-    	String pattern = "dd/MM/YYYY";
+    	String pattern = "yyyy-MM-dd";
     	SimpleDateFormat simpleDateFormat = new SimpleDateFormat(pattern,Locale.ENGLISH);	
 		dateString = simpleDateFormat.format(dateUnformat);    
     	dateFormat = convertStringToDate(dateString);
-    	
+    	System.out.println("convertDateToDate dateString " + dateString);
+    	System.out.println("convertDateToDate dateFormat " + dateFormat);
     	return dateFormat;
     }
 }
