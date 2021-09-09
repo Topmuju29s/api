@@ -15,27 +15,41 @@ import ws.license.exam.entities.ExamSchedule;
 public interface ExamScheduleRepository extends JpaRepository<ExamSchedule, Integer>,JpaSpecificationExecutor<ExamSchedule>
 {
 
-	List<ExamSchedule> findByExamDate(Date examDate);
-    List<ExamSchedule> findByRoundId(String roundId);
-    List<ExamSchedule> findByExamDateAndRoundId(Date examDate, String roundId);
+	public List<ExamSchedule> findByExamDate(Date examDate);
+	public List<ExamSchedule> findByRoundId(String roundId);
+    public List<ExamSchedule> findByExamDateAndRoundId(Date examDate, String roundId);
     
     @Query(value = "SELECT es from ExamSchedule es "
     		+ "INNER JOIN ExamLocation el on el.locationId = es.locationId "
     		+ "where el.provinceCode = :provinceCode and el.orgCode = :examOrg "
     		+ " order by es.scheduleId desc", nativeQuery = false)
-    List<ExamSchedule> findByProvinceCodeAndExamOrg(@Param("provinceCode") String provinceCode,
+    public List<ExamSchedule> findByProvinceCodeAndExamOrg(@Param("provinceCode") String provinceCode,
     												@Param("examOrg") String examOrg);
 
     @Query(value = "SELECT es from ExamSchedule es "
     		+ "INNER JOIN ExamLocation el on el.locationId = es.locationId "
     		+ "where el.provinceCode = :provinceCode "
     		+ " order by es.scheduleId desc", nativeQuery = false)
-    List<ExamSchedule> findByProvinceCode(@Param("provinceCode") String provinceCode);
+    public List<ExamSchedule> findByProvinceCode(@Param("provinceCode") String provinceCode);
     
     @Query(value = "SELECT es from ExamSchedule es "
     		+ "JOIN ExamLocation el on el.locationId = es.locationId "
     		+ "where el.orgCode = :examOrg "
     		+ " order by es.scheduleId desc", nativeQuery = false)
-    List<ExamSchedule> findByExamOrg(@Param("examOrg") String examOrg);
+    public List<ExamSchedule> findByExamOrg(@Param("examOrg") String examOrg);
+    
+    @Query(value = "SELECT es.* "
+    		+ " from license_exam.exam_schedule es "
+    		+ " left join license_exam.exam_location el "
+    		+ "        on el.location_id = es.location_id"
+    		+ " order by es.schedule_id desc", nativeQuery = true)
+    public List<ExamSchedule> findAll();
+    
+    @Query(value = "SELECT es.* "
+    		+ " from license_exam.exam_schedule es "
+    		+ " left join license_exam.exam_location el "
+    		+ "        on el.location_id = es.location_id"
+    		+ " order by es.schedule_id desc", nativeQuery = true)
+    public List<ExamSchedule> findById(@Param("scheduleId") int scheduleId);
 	
 }

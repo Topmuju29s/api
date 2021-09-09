@@ -14,6 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ws.license.exam.entities.ExamSchedule;
+import ws.license.exam.entities.ExamScheduleDetail;
+import ws.license.exam.repository.ExamScheduleDetailRepository;
 import ws.license.exam.repository.ExamScheduleRepository;
 
 @Service
@@ -21,14 +23,17 @@ public class ExamScheduleService {
 	
 	@Autowired
 	private ExamScheduleRepository examScheduleRepository;
-	public List<ExamSchedule> findAll()
+	@Autowired
+	private ExamScheduleDetailRepository examScheduleDetailRepository;
+	
+	public List<ExamScheduleDetail> findAll()
 	{
-		return examScheduleRepository.findAll();
+		return examScheduleDetailRepository.findAll();
 	}
 
-	public Optional<ExamSchedule> findById(int id) 
+	public List<ExamScheduleDetail> findById(int id) 
 	{
-		return examScheduleRepository.findById(id);
+		return examScheduleDetailRepository.findById(id);
 	}
 
 	public ExamSchedule save(ExamSchedule ExamSchedule)
@@ -43,20 +48,20 @@ public class ExamScheduleService {
 		return "schedulr_id with ID :"+id+" is deleted"; 
 	}
 	
-	public List<ExamSchedule> findByDetail(String examDate, String roundId, String provinceCode, String examOrg) 
+	public List<ExamScheduleDetail> findByDetail(String examDate, String roundId, String provinceCode, String examOrg) 
 	{
 
-                    List<ExamSchedule> ex = new ArrayList<ExamSchedule>();
-                    List<ExamSchedule> exFilter = new ArrayList<ExamSchedule>();
+                    List<ExamScheduleDetail> ex = new ArrayList<ExamScheduleDetail>();
+                    List<ExamScheduleDetail> exFilter = new ArrayList<ExamScheduleDetail>();
                     
                     if (!"".equals(convertNullToEmptyString(provinceCode)) & !"".equals(convertNullToEmptyString(examOrg))) {
-                    	ex = examScheduleRepository.findByProvinceCodeAndExamOrg(provinceCode, examOrg);
+                    	ex = examScheduleDetailRepository.findByProvinceCodeAndExamOrg(provinceCode, examOrg);
                     } else if (!"".equals(convertNullToEmptyString(provinceCode)) & "".equals(convertNullToEmptyString(examOrg))) {
-                    	ex = examScheduleRepository.findByProvinceCode(provinceCode);
+                    	ex = examScheduleDetailRepository.findByProvinceCode(provinceCode);
                     } else if ("".equals(convertNullToEmptyString(provinceCode)) & !"".equals(convertNullToEmptyString(examOrg))) {
-                    	ex = examScheduleRepository.findByExamOrg(examOrg);
+                    	ex = examScheduleDetailRepository.findByExamOrg(examOrg);
                     } else {
-                    	ex = examScheduleRepository.findAll();
+                    	ex = examScheduleDetailRepository.findAll();
                     }
                     
                     if (!"".equals(convertNullToEmptyString(examDate))) {

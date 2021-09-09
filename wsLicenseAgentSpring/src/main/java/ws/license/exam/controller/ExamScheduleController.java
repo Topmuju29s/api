@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.repository.query.Param;
@@ -19,6 +21,7 @@ import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.server.ResponseStatusException;
 
 import ws.license.exam.entities.ExamSchedule;
+import ws.license.exam.entities.ExamScheduleDetail;
 import ws.license.exam.service.ExamScheduleService;
 
 @RestController
@@ -27,6 +30,8 @@ import ws.license.exam.service.ExamScheduleService;
 public class ExamScheduleController {
 	@Autowired
 	private ExamScheduleService exService;
+	
+	protected Logger logger = LoggerFactory.getLogger(this.getClass());
 	
 	@Value("${app.message}")
 	private String welcomeMessage;
@@ -59,12 +64,12 @@ public class ExamScheduleController {
 	{
 		try
 		{
-			Optional<ExamSchedule> old = exService.findById(ExamSchedule.getScheduleId());
+			List<ExamScheduleDetail> old = exService.findById(ExamSchedule.getScheduleId());
 			
-			if (old.isPresent()) 
+			if (old.size() > 0)
 			{
-				ExamSchedule.setCreateTime(old.get().getCreateTime());
-				ExamSchedule.setCreateUserCode(old.get().getCreateUserCode());
+				ExamSchedule.setCreateTime(old.get(0).getCreateTime());
+				ExamSchedule.setCreateUserCode(old.get(0).getCreateUserCode());
 				ExamSchedule eLast = exService.save(ExamSchedule);
 				return new ResponseEntity<ExamSchedule>(eLast,HttpStatus.OK);
 			}
@@ -97,29 +102,23 @@ public class ExamScheduleController {
 		}
 	}
 	@RequestMapping(value = "/examschedule/search", method=RequestMethod.POST)
-	public ResponseEntity<List<ExamSchedule>> searchExamSchedule(@Param("type") String type) 
+	public ResponseEntity<List<ExamScheduleDetail>> searchExamSchedule(@Param("type") String type) 
 	{
 		System.out.println("searchExamSchedule type = "+type);
 		try
 		{
-			List<ExamSchedule> listEx = new ArrayList<ExamSchedule>();
+
 			if(type.equals("A"))
 			{
-				List<ExamSchedule> list = exService.findAll();
-				return new ResponseEntity<List<ExamSchedule>>(list,HttpStatus.OK);
+				List<ExamScheduleDetail> list = exService.findAll();
+				return new ResponseEntity<List<ExamScheduleDetail>>(list,HttpStatus.OK);
 			}
 			else
 			{
-				Optional<ExamSchedule> ex = exService.findById(Integer.parseInt(type));
-				if (ex.isPresent()) 
+				List<ExamScheduleDetail> ex = exService.findById(Integer.parseInt(type));
+				if (ex.size() > 0) 
 				{
-					listEx.add(ex.get());
-					for(int i=0;i<listEx.size();i++)
-					{
-						ExamSchedule en = (ExamSchedule)listEx.get(i);
-						System.out.println("result searchExamSchedule : "+en);
-					}
-					return new ResponseEntity<List<ExamSchedule>>(listEx,HttpStatus.OK);
+					return new ResponseEntity<List<ExamScheduleDetail>>(ex,HttpStatus.OK);
 			    } 
 				else 
 				{
@@ -137,16 +136,16 @@ public class ExamScheduleController {
 	}
 	
 	@RequestMapping(value = "/examschedule/searchGET", method=RequestMethod.GET)
-	public ResponseEntity<List<ExamSchedule>> searchExamScheduleGet() 
+	public ResponseEntity<List<ExamScheduleDetail>> searchExamScheduleGet() 
 	{
 		System.out.println("searchExamScheduleGet");
 
-		List<ExamSchedule> list = exService.findAll();
-		return new ResponseEntity<List<ExamSchedule>>(list,HttpStatus.OK);
+		List<ExamScheduleDetail> list = exService.findAll();
+		return new ResponseEntity<List<ExamScheduleDetail>>(list,HttpStatus.OK);
 	}
 	
 	@RequestMapping(value = "/examschedule/searchDetail", method = RequestMethod.GET)
-    public ResponseEntity<List<ExamSchedule>> searchExamScheduleByDetail(@Param("examDate") String examDate, 
+    public ResponseEntity<List<ExamScheduleDetail>> searchExamScheduleByDetail(@Param("examDate") String examDate, 
     																	 @Param("roundId") String roundId,
     																	 @Param("provinceCode") String provinceCode,
     																	 @Param("examOrg") String examOrg) {
@@ -155,10 +154,10 @@ public class ExamScheduleController {
         System.out.println("provinceCode = " + provinceCode);
         System.out.println("examOrg = " + examOrg);
         try {
-            List<ExamSchedule> ex = new ArrayList<ExamSchedule>();                        
-            ex = exService.findByDetail(examDate,roundId,provinceCode,examOrg);
+
+        	List<ExamScheduleDetail> ex = exService.findByDetail(examDate,roundId,provinceCode,examOrg);
             
-            return new ResponseEntity<List<ExamSchedule>>(ex,HttpStatus.OK);
+            return new ResponseEntity<List<ExamScheduleDetail>>(ex,HttpStatus.OK);
         } catch (Exception e) {
             System.out.println("Error searchExamSchedule : " + e.getMessage());
             throw new ResponseStatusException(HttpStatus.INTERNAL_SERVER_ERROR, e.getMessage());
