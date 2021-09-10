@@ -1,0 +1,80 @@
+spring.profiles.active: local
+---
+app:
+  message: This is the property file for the ${spring.application.name} specific to ${spring.profiles.active} Environment
+spring:  
+  profiles: local
+  application:
+    name: wsLicenseAgentSpring
+ # Database
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://localhost:5432/corebiz
+    username: postgres
+    password: 7343
+  # JPA properties
+  jpa:
+    hibernate:
+      ddl-auto: none # When you launch the application for the first time - switch "none" at "create"
+      allow_update_outside_transaction: false
+    show-sql: true
+    database: postgresql
+    properties:
+      hibernate:
+        allow_update_outside_transaction: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: license_exam
+      javax:
+        persistence:
+          query:
+            timeout: 63000
+      
+# Server configuration
+server:
+  servlet:
+     context-path: /
+  port: 8080
+# Logger configuration
+logging:
+  path: E:\Work\thai life\logs
+  file: ${logging.path}/log-${spring.application.name}.log
+  
+---
+app:
+  message: This is the property file for the ${spring.application.name} specific to ${spring.profiles.active} Environment
+spring:
+  profiles: dev
+  application:
+    name: wsLicenseAgentSpring
+ # Database
+  datasource:
+    driver-class-name: org.postgresql.Driver
+    url: jdbc:postgresql://dev-cbizdb.thailife.com:5432/corebiz
+    username: corebiz.app
+    password: C2a7MzO3Mz@jZR
+  # JPA properties
+  jpa:
+    hibernate:
+      ddl-auto: none # When you launch the application for the first time - switch "none" at "create"
+      allow_update_outside_transaction: false
+    show-sql: true
+    database: postgresql
+    properties:
+      hibernate:
+        allow_update_outside_transaction: false
+        dialect: org.hibernate.dialect.PostgreSQLDialect
+        default_schema: license_exam
+      javax:
+        persistence:
+          query:
+            timeout: 63000
+      
+# Server configuration
+server:
+  servlet:
+    context-path: /
+  port: 8080
+# Logger configuration
+logging:
+  path: E:\Work\thai life\logs
+  file: ${logging.path}/log-${spring.application.name}.log
