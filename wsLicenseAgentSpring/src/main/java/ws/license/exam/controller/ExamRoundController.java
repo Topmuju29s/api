@@ -25,6 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import ws.license.exam.entities.ExamRound;
 import ws.license.exam.service.ExamRoundService;
+import ws.license.exam.util.StringCommon;
 
 
 @RestController
@@ -116,7 +117,8 @@ public class ExamRoundController {
 		{
 			//List<ExamRound> data = exService.testSearchSQL(type);
 			List<ExamRound> listEx = new ArrayList<ExamRound>();
-			if(type.equals("A"))
+			String typeString = StringCommon.ConvertNullToEmptyString(type);
+			if(type.equals("A") || "".equals(typeString))
 			{
 				List<ExamRound> list = exService.findAll();
 				return new ResponseEntity<List<ExamRound>>(list,HttpStatus.OK);
@@ -126,7 +128,7 @@ public class ExamRoundController {
 		
 				//exService.findById(type).orElseThrow(() -> new NotFoundException("round_id "+type+" is Not Found!"));
 				
-				Optional<ExamRound> ex = exService.findById(type);
+				Optional<ExamRound> ex = exService.findById(typeString);
 				if (ex.isPresent()) 
 				{
 					listEx.add(ex.get());
