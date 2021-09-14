@@ -95,6 +95,7 @@ public interface ExamScheduleDetailRepository extends JpaRepository<ExamSchedule
     		+ " 	   on er.province_code = el.province_code"
     		+ " left join license_exam.exam_round ero "
     		+ "	       on ero.round_id = es.round_id "
+    		+ " where ex.schedule_id = :scheduleId "
     		+ " order by es.schedule_id desc", nativeQuery = true)
     public List<ExamScheduleDetail> findById(@Param("scheduleId") int scheduleId);
 	
