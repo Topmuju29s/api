@@ -39,15 +39,15 @@ public interface ExamScheduleRepository extends JpaRepository<ExamSchedule, Inte
     public List<ExamSchedule> findByExamOrg(@Param("examOrg") String examOrg);
     
     @Query(value = "SELECT es.* "
-    		+ " from license_exam.exam_schedule es "
-    		+ " left join license_exam.exam_location el "
+    		+ " from sales_license.exam_schedule es "
+    		+ " left join sales_license.exam_location el "
     		+ "        on el.location_id = es.location_id"
     		+ " order by es.schedule_id desc", nativeQuery = true)
     public List<ExamSchedule> findAll();
     
     @Query(value = "SELECT es.* "
-    		+ " from license_exam.exam_schedule es "
-    		+ " left join license_exam.exam_location el "
+    		+ " from sales_license.exam_schedule es "
+    		+ " left join sales_license.exam_location el "
     		+ "        on el.location_id = es.location_id"
     		+ " order by es.schedule_id desc", nativeQuery = true)
     public List<ExamSchedule> findById(@Param("scheduleId") int scheduleId);

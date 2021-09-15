@@ -27,24 +27,24 @@ public interface ExamLocationDetailRepository extends JpaRepository<ExamLocation
 //			+ " order by el.locationId desc", nativeQuery = true)
 
 	@Query(value = "select el.*, er.province_name, er.region as region_code, er.region as region_name, el.location_type as location_type_name, eo.org_name "
-			+ " from license_exam.exam_location el "
-			+ "		  left join license_exam.exam_region er "
+			+ " from sales_license.exam_location el "
+			+ "		  left join sales_license.exam_region er "
 			+ "		    on er.province_code = el.province_code"
-			+ "		  left join license_exam.exam_organizer eo"
+			+ "		  left join sales_license.exam_organizer eo"
 			+ "         on eo.org_code = el.org_code", nativeQuery = true)
     public List<ExamLocationDetail> findExamLocationAll();
 	
 	@Query(value = "select el.*, er.province_name, er.region as region_code, er.region as region_name, el.location_type as location_type_name, eo.org_name "
-			+ " from license_exam.exam_location el "
-			+ "		  left join license_exam.exam_region er "
+			+ " from sales_license.exam_location el "
+			+ "		  left join sales_license.exam_region er "
 			+ "		    on er.province_code = el.province_code"
-			+ "		  left join license_exam.exam_organizer eo"
+			+ "		  left join sales_license.exam_organizer eo"
 			+ "         on eo.org_code = el.org_code"
 			+ " where el.location_id = :locationId ", nativeQuery = true)
 	public List<ExamLocationDetail> findExamLocationById(@Param("locationId") int locationId);
 	
 	@Modifying
-	@Query(value = "update license_exam.exam_location SET last_update = current_timestamp where location_id = :locationId ", nativeQuery = true)
+	@Query(value = "update sales_license.exam_location SET last_update = current_timestamp where location_id = :locationId ", nativeQuery = true)
 	@Transactional
 	public void updateExamLocation(@Param("locationId") int locationId);
 
