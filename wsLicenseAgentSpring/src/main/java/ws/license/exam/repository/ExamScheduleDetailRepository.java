@@ -32,7 +32,7 @@ public interface ExamScheduleDetailRepository extends JpaRepository<ExamSchedule
     		+ " left join sales_license.exam_round ero "
     		+ "	       on ero.round_id = es.round_id "
     		+ " where el.province_code = :provinceCode and el.org_code = :examOrg "
-    		+ " order by es.schedule_id desc", nativeQuery = true)
+    		+ " order by es.schedule_id asc", nativeQuery = true)
     public List<ExamScheduleDetail> findByProvinceCodeAndExamOrg(@Param("provinceCode") String provinceCode,
     												@Param("examOrg") String examOrg);
 
@@ -49,7 +49,7 @@ public interface ExamScheduleDetailRepository extends JpaRepository<ExamSchedule
     		+ " left join sales_license.exam_round ero "
     		+ "	       on ero.round_id = es.round_id "
     		+ " where el.province_code = :provinceCode"
-    		+ " order by es.schedule_id desc", nativeQuery = true)
+    		+ " order by es.schedule_id asc", nativeQuery = true)
     public List<ExamScheduleDetail> findByProvinceCode(@Param("provinceCode") String provinceCode);
     
     @Query(value = "SELECT es.*, el.province_code, er.province_name, er.region as region_code, er.region as region_name, "
@@ -65,7 +65,7 @@ public interface ExamScheduleDetailRepository extends JpaRepository<ExamSchedule
     		+ " left join sales_license.exam_round ero "
     		+ "	       on ero.round_id = es.round_id "
     		+ " where el.org_code = :examOrg"
-    		+ " order by es.schedule_id desc", nativeQuery = true)
+    		+ " order by es.schedule_id asc", nativeQuery = true)
     public List<ExamScheduleDetail> findByExamOrg(@Param("examOrg") String examOrg);
     
     @Query(value = "SELECT es.*, el.province_code, er.province_name, er.region as region_code, er.region as region_name, "
@@ -80,7 +80,7 @@ public interface ExamScheduleDetailRepository extends JpaRepository<ExamSchedule
     		+ " 	   on er.province_code = el.province_code"
     		+ " left join sales_license.exam_round ero "
     		+ "	       on ero.round_id = es.round_id "
-    		+ " order by es.schedule_id desc", nativeQuery = true)
+    		+ " order by es.schedule_id asc", nativeQuery = true)
     public List<ExamScheduleDetail> findAll();
     
     @Query(value = "SELECT es.*, el.province_code, er.province_name, er.region as region_code, er.region as region_name, "
@@ -95,8 +95,8 @@ public interface ExamScheduleDetailRepository extends JpaRepository<ExamSchedule
     		+ " 	   on er.province_code = el.province_code"
     		+ " left join sales_license.exam_round ero "
     		+ "	       on ero.round_id = es.round_id "
-    		+ " where ex.schedule_id = :scheduleId "
-    		+ " order by es.schedule_id desc", nativeQuery = true)
+    		+ " where es.schedule_id = :scheduleId "
+    		+ " order by es.schedule_id asc", nativeQuery = true)
     public List<ExamScheduleDetail> findById(@Param("scheduleId") int scheduleId);
 	
 }

@@ -88,9 +88,9 @@ spring:
  # Database
   datasource:
     driver-class-name: org.postgresql.Driver
-    url: jdbc:postgresql://dev-cbizdb.thailife.com:5432/corebiz
+    url: jdbc:postgresql://sit-cbizdb.thailife.com:5432/corebiz
     username: corebiz.app
-    password: C2a7MzO3Mz@jZR
+    password: S2a7Szg3Mz#jZT
   # JPA properties
   jpa:
     hibernate:

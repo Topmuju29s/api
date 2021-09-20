@@ -31,7 +31,8 @@ public interface ExamLocationDetailRepository extends JpaRepository<ExamLocation
 			+ "		  left join sales_license.exam_region er "
 			+ "		    on er.province_code = el.province_code"
 			+ "		  left join sales_license.exam_organizer eo"
-			+ "         on eo.org_code = el.org_code", nativeQuery = true)
+			+ "         on eo.org_code = el.org_code"
+			+ " order by location_id asc ", nativeQuery = true)
     public List<ExamLocationDetail> findExamLocationAll();
 	
 	@Query(value = "select el.*, er.province_name, er.region as region_code, er.region as region_name, el.location_type as location_type_name, eo.org_name "
@@ -40,7 +41,8 @@ public interface ExamLocationDetailRepository extends JpaRepository<ExamLocation
 			+ "		    on er.province_code = el.province_code"
 			+ "		  left join sales_license.exam_organizer eo"
 			+ "         on eo.org_code = el.org_code"
-			+ " where el.location_id = :locationId ", nativeQuery = true)
+			+ " where el.location_id = :locationId "
+			+ " order by location_id asc ", nativeQuery = true)
 	public List<ExamLocationDetail> findExamLocationById(@Param("locationId") int locationId);
 	
 	@Modifying

@@ -18,7 +18,7 @@ public class ExamOrganizerService
 
 	public List<ExamOrganizer> findAll()
 	{
-		return examOrganizerRepository.findAll();
+		return examOrganizerRepository.findAllByOrderByOrgCodeAsc();
 	}
 
 	public Optional<ExamOrganizer> findById(String id) 
@@ -26,8 +26,13 @@ public class ExamOrganizerService
 		return examOrganizerRepository.findById(id);
 	}
 
-	public ExamOrganizer save(ExamOrganizer examRound)
+	public ExamOrganizer save(ExamOrganizer examRound) throws Exception
 	{
+		
+		if(examRound.getOrgName().length() > 50){
+			throw new Exception("ความยาวชื่อสถานที่สอบเกิน 50 ตัวอักษร");
+		}
+		
 		return examOrganizerRepository.save(examRound);
 	}
 	public String delete(String id) 

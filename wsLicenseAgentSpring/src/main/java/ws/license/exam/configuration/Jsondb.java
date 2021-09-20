@@ -8,6 +8,7 @@ import java.util.List;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import ws.license.exam.domain.Region;
+import ws.license.exam.domain.ExamResult;
 import ws.license.exam.domain.ExamType;
 
 public class Jsondb {
@@ -44,6 +45,26 @@ public class Jsondb {
 		
 		} catch (IOException e){ 
 			
+		}
+		
+		return exam;
+	
+	}
+	
+	public List<ExamResult> getExamResultFromJson(){
+		
+		List<ExamResult> exam = null;
+		ObjectMapper mapper = new ObjectMapper();
+		TypeReference<List<ExamResult>> typeReference = new TypeReference<List<ExamResult>>(){};
+		InputStream inputStream = TypeReference.class.getResourceAsStream("/json/examResult.json");
+
+		try{
+			
+			exam = mapper.readValue(inputStream, typeReference);
+		
+			
+		} catch (IOException e){ 
+			System.out.println("hasException " + e);
 		}
 		
 		return exam;

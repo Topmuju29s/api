@@ -15,7 +15,9 @@ import org.springframework.stereotype.Service;
 
 import ws.license.exam.entities.ExamSchedule;
 import ws.license.exam.entities.ExamScheduleDetail;
+import ws.license.exam.entities.ExamScheduleLog;
 import ws.license.exam.repository.ExamScheduleDetailRepository;
+import ws.license.exam.repository.ExamScheduleLogRepository;
 import ws.license.exam.repository.ExamScheduleRepository;
 
 @Service
@@ -23,6 +25,8 @@ public class ExamScheduleService {
 	
 	@Autowired
 	private ExamScheduleRepository examScheduleRepository;
+	@Autowired
+	private ExamScheduleLogRepository examScheduleLogRepository;
 	@Autowired
 	private ExamScheduleDetailRepository examScheduleDetailRepository;
 	
@@ -36,9 +40,21 @@ public class ExamScheduleService {
 		return examScheduleDetailRepository.findById(id);
 	}
 
-	public ExamSchedule save(ExamSchedule ExamSchedule)
+	public ExamSchedule save(ExamSchedule examSchedule)
 	{
-		return examScheduleRepository.save(ExamSchedule);
+		
+		ExamScheduleLog examScheduleLog = 
+				new ExamScheduleLog(examSchedule.getScheduleId(), examSchedule.getLocationId(),
+						examSchedule.getAlteredLocationId(), examSchedule.getExamDate(),
+						examSchedule.getRoundId(), examSchedule.getMaxApplicant(),
+						examSchedule.getApplyOpenDate(), examSchedule.getApplyCloseDate(),
+						examSchedule.getOpenStatus(), "",
+						examSchedule.getReceiveDate(), examSchedule.getReceiveTime(),
+						examSchedule.getCreateUserCode(), examSchedule.getCreateTime(), 
+						examSchedule.getUpdateUserCode(), examSchedule.getLastUpdate()); 
+
+		examScheduleLogRepository.save(examScheduleLog);
+		return examScheduleRepository.save(examSchedule);
 	}
 	
 	

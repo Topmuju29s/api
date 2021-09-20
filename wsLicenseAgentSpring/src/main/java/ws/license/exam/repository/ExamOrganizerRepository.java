@@ -9,5 +9,7 @@ import ws.license.exam.entities.ExamOrganizer;
 @Repository
 public interface ExamOrganizerRepository extends JpaRepository<ExamOrganizer, String>
 {
+
+	public List<ExamOrganizer> findAllByOrderByOrgCodeAsc();
 	
 }

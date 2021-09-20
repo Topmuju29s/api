@@ -33,8 +33,13 @@ public class ExamLocationService
 		return examLocationDetailRepository.findExamLocationById(id);		
 	}
 
-	public ExamLocation save(ExamLocation examLocation)
+	public ExamLocation save(ExamLocation examLocation) throws Exception
 	{
+		
+		if(examLocation.getLocationDetail().length() > 300){
+			throw new Exception("ความยาวสถานที่ตั้งสอบเกิน 300 ตัวอักษร");
+		}
+		
 		return examLocationRepository.save(examLocation);
 	}
 	

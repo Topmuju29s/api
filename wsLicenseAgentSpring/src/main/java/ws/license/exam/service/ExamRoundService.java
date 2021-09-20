@@ -19,7 +19,7 @@ public class ExamRoundService
 
 	public List<ExamRound> findAll()
 	{
-		return examRoundRepository.findAll();
+		return examRoundRepository.findAllByOrderByRoundId();
 	}
 
 	public Optional<ExamRound> findById(String id) 

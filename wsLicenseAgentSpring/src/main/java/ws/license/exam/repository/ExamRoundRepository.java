@@ -37,5 +37,7 @@ public interface ExamRoundRepository extends JpaRepository<ExamRound, String>/*,
 	//Native
 	@Query(value = "SELECT * FROM exam_round e WHERE e.roundId = '02'", nativeQuery = true)
 	public List<ExamRound> searchDataAll(); 
+	
+	public List<ExamRound> findAllByOrderByRoundId(); 
 }
 
